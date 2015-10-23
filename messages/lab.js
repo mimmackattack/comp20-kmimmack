@@ -13,8 +13,8 @@ function parse()
 			elem = document.getElementById("messages");
 			for (i = 0; i < msgs.length; i++)
 			{
-				elem.innerHTML += "<p>" + msgs[i]["content"] + "</p>"
-				+ '<p><div id="user">' + msgs[i]["username"] + "</div></p>";
+				elem.innerHTML += '<div id="id' + i +'"><p>' + msgs[i]["content"]
+				+ '<br /><div id="user">' + msgs[i]["username"] + "</div></p></div>";
 			}
 		}
 

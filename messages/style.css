@@ -1,1 +1,34 @@
-/* Your CSS here... */
+h1 {
+	text-align:center;
+}
+
+#messages {
+	margin-left:33%;
+	margin-right:33%;
+	color:white;
+}
+
+#id0 {
+	background-color:#8FF01C;
+	border-radius:15px;
+	margin-top:1%;
+	padding-left:2%;
+	padding-right:2%;
+	padding-top:0.25%;
+	padding-bottom:0.25%;
+}
+
+#id1 {
+	background-color:#C8CCCF;
+	border-radius:15px;
+	margin-top:1%;
+	padding-left:2%;
+	padding-right:2%;
+	padding-top:0.25%;
+	padding-bottom:0.25%;
+}
+
+#user {
+	opacity:0.5;
+	text-align:right;
+}

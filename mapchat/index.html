@@ -9,12 +9,14 @@
 		<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
 		<script>
 
-			var lat = 0;
-			var lng = 0;
+			var mylat = 0;
+			var mylng = 0;
+			var map;
+			var allMarkers;
 
 			var url = "https://secret-about-box.herokuapp.com/sendLocation";
 			var msg = encodeURIComponent("Movement to rename Dewick #FairRecognition #DontShaftMacPhie #MacPhieLivesMatter")
-			var param = "login=GlendaSmith&lat=" + lat + "&lng=" + lng + "&message=" + msg;
+			var param = "login=GlendaSmith&lat=" + mylat + "&lng=" + mylng + "&message=" + msg;
 			var friendsdata;
 			
 			function mapinfo()
@@ -22,16 +24,15 @@
 				/*************** My Info ***************/
 				if (navigator.geolocation)
 				{
-					console.log("fetching location...");
 					navigator.geolocation.getCurrentPosition(function(position)
 					{
-						console.log("got location");
-						lat = position.coords.latitude;
-						lng = position.coords.longitude;
+						mylat = position.coords.latitude;
+						mylng = position.coords.longitude;
 						post();
 					});
 				}
 				else alert("Geolocation not supported -- try a different browser.");
+
 			}
 
 			function post()
@@ -44,16 +45,41 @@
 				xhr.onreadystatechange = function()
 				{
 					if (xhr.readyState == 4 && xhr.status == 200)
-						friendsdata = xhr.responseText;
+					{
+						friendsdata = JSON.parse(xhr.responseText);
+						console.log(friendsdata.length);
+						initMap();
+					}
 				}
 				xhr.send(param);
 			}
-				/*************** Other Users ***************/
+
+			function initMap()
+			{
+				/*************** MAP ***************/
+				map = new google.maps.Map(document.getElementById("map_canvas"),
+				{
+					center: {lat: mylat, lng: mylng},
+					zoom: 15
+  				});
+
+  				for (i = 0; i < friendsdata.length; i++)
+  				{
+  					allMarkers[i] = new google.maps.Marker(
+  					{
+  						position: new google.maps.LatLng(
+  							friendsdata[i]["lat"],
+  							friendsdata[i]["lng"]),
+  						title: friendsdata[i]["login"]
+  					});
+  				}
+			}
 
 		</script>
 	</head>
 
 	<body onload="mapinfo()">
+		<div id="map_canvas"></div>
 	</body>
 
 </html>

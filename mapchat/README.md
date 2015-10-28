@@ -1,9 +1,9 @@
 #README
 
-1. So far, geolocation works and it sends and gets location data from the given
+1. Geolocation works and it sends and gets location data from the given
    URL properly. CSS has been added and Google Maps work is nearly done. Markers
-   are placed and display information properly. Still needs more info to display
-   when clicking on markers, and the spot marking yourself needs to look different.
+   are placed and display information properly. Marker for self is unique and 
+   distance info now displays properly. All requirements are implemented.
 
 2. Have not collaborated with anyone on the assignment. Resources used so far include:
    - https://developers.google.com/maps/documentation/javascript/tutorial
@@ -18,8 +18,12 @@
    for info about XMLHttpRequest and the Google Maps API
    - https://github.com/tuftsdev/WebProgramming/blob/gh-pages/examples/google_maps/geolocation_map.html
    for examples of using the Google Maps API
+   - https://developers.google.com/maps/documentation/javascript/markers
+   for info on changing marker icons
+   - http://www.movable-type.co.uk/scripts/latlong.html
+   code for calculating distance between two points taken directly from here.
 
-3. Spent approximately 4 hours on this assignment so far.
+3. Spent approximately 5 hours on this assignment.
 
 
 

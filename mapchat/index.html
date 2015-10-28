@@ -9,6 +9,7 @@
 		<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
 		<script>
 
+			var mylogin = 'GlendaSmith';
 			var mylat = 0;
 			var mylng = 0;
 			var map;
@@ -28,7 +29,7 @@
 					{
 						mylat = position.coords.latitude;
 						mylng = position.coords.longitude;
-						param = "login=GlendaSmith&lat=" + mylat + "&lng=" + mylng + "&message=" + msg;
+						param = "login=" + mylogin + "&lat=" + mylat + "&lng=" + mylng + "&message=" + msg;
 						post();
 					});
 				}
@@ -65,15 +66,33 @@
 
   				for (i = 0; i < friendsdata.length; i++)
   				{
-  					var marker = new google.maps.Marker(
+
+  					if (friendsdata[i]["login"] == mylogin)
+  					{
+  						var marker = new google.maps.Marker(
+  						{
+  							position: new google.maps.LatLng(mylat, mylng),
+  							title: mylogin,
+  							icon: 'star.png'
+  						});
+  					}
+
+  					else var marker = new google.maps.Marker(
   					{
   						position: new google.maps.LatLng(
   							friendsdata[i]["lat"],
   							friendsdata[i]["lng"]),
-  						title: friendsdata[i]["login"]
+  						title: friendsdata[i]["login"],
   					});
 
-  					marker.content = friendsdata[i]["login"] + " says: " + friendsdata[i]["message"];
+  					var markerlat = marker.getPosition().lat();
+  					var markerlng = marker.getPosition().lng();
+
+  					if (friendsdata[i]["login"] == mylogin)
+  						marker.content = "<div id='window'>It's you, " + mylogin +"!</div>";
+
+  					else marker.content = "<div id='window'>" + friendsdata[i]["login"] + ":<br/>" + friendsdata[i]["message"]
+  						+ "<br/>" + distFromMe(markerlat, markerlng) + " miles from you</div>";
 
   					google.maps.event.addListener(marker, 'click', function()
   					{
@@ -83,6 +102,28 @@
 
 					marker.setMap(map);
   				};
+			}
+
+			function distFromMe(tlat, tlng)
+			{
+				var R = 3958.756; // miles
+				var lat1 = toRadians(tlat);
+				var lat2 = toRadians(mylat);
+				var latchange = toRadians(mylat-tlat);
+				var lngchange = toRadians(mylng-tlng);
+
+				var a = Math.sin(latchange/2) * Math.sin(latchange/2) +
+       			Math.cos(lat1) * Math.cos(lat2) *
+        		Math.sin(lngchange/2) * Math.sin(lngchange/2);
+				var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+				var dist = R * c;
+				return dist.toFixed(4);
+			}
+
+			function toRadians(num)
+			{
+				return num * Math.PI / 180;
 			}
 
 		</script>

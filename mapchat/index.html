@@ -12,11 +12,11 @@
 			var mylat = 0;
 			var mylng = 0;
 			var map;
-			var allMarkers;
+			infowindow = new google.maps.InfoWindow();
 
 			var url = "https://secret-about-box.herokuapp.com/sendLocation";
 			var msg = encodeURIComponent("Movement to rename Dewick #FairRecognition #DontShaftMacPhie #MacPhieLivesMatter")
-			var param = "login=GlendaSmith&lat=" + mylat + "&lng=" + mylng + "&message=" + msg;
+			var param
 			var friendsdata;
 			
 			function mapinfo()
@@ -28,6 +28,7 @@
 					{
 						mylat = position.coords.latitude;
 						mylng = position.coords.longitude;
+						param = "login=GlendaSmith&lat=" + mylat + "&lng=" + mylng + "&message=" + msg;
 						post();
 					});
 				}
@@ -47,7 +48,6 @@
 					if (xhr.readyState == 4 && xhr.status == 200)
 					{
 						friendsdata = JSON.parse(xhr.responseText);
-						console.log(friendsdata.length);
 						initMap();
 					}
 				}
@@ -65,14 +65,24 @@
 
   				for (i = 0; i < friendsdata.length; i++)
   				{
-  					allMarkers[i] = new google.maps.Marker(
+  					var marker = new google.maps.Marker(
   					{
   						position: new google.maps.LatLng(
   							friendsdata[i]["lat"],
   							friendsdata[i]["lng"]),
   						title: friendsdata[i]["login"]
   					});
-  				}
+
+  					marker.content = friendsdata[i]["login"] + " says: " + friendsdata[i]["message"];
+
+  					google.maps.event.addListener(marker, 'click', function()
+  					{
+						infowindow.setContent(this.content);
+						infowindow.open(map, this);
+					});
+
+					marker.setMap(map);
+  				};
 			}
 
 		</script>

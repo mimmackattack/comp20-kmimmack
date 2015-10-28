@@ -4,14 +4,22 @@
 
 	<head>
 		<title>Map Chat</title>
+		<meta charset="utf-8" /> 
+		<link rel="stylesheet" href="style.css" />
 		<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
 		<script>
+
+			var lat = 0;
+			var lng = 0;
+
+			var url = "https://secret-about-box.herokuapp.com/sendLocation";
+			var msg = encodeURIComponent("Movement to rename Dewick #FairRecognition #DontShaftMacPhie #MacPhieLivesMatter")
+			var param = "login=GlendaSmith&lat=" + lat + "&lng=" + lng + "&message=" + msg;
+			var friendsdata;
+			
 			function mapinfo()
 			{
 				/*************** My Info ***************/
-				var lat = 0;
-				var lng = 0;
-
 				if (navigator.geolocation)
 				{
 					console.log("fetching location...");
@@ -20,35 +28,28 @@
 						console.log("got location");
 						lat = position.coords.latitude;
 						lng = position.coords.longitude;
-						console.log(lat);
-						console.log(lng);
 						post();
 					});
 				}
-			
 				else alert("Geolocation not supported -- try a different browser.");
+			}
 
-				function post()
+			function post()
+			{
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhr.setRequestHeader("Content-length", param.length);
+				xhr.setRequestHeader("Connection", "close");
+				xhr.onreadystatechange = function()
 				{
-					var xhr = new XMLHttpRequest();
-					var url = "https://secret-about-box.herokuapp.com/sendLocation";
-					var param = "login=GlendaSmith&lat=" + lat + "&lng=" + lng + "&message=holla"; 
-					console.log(param);
-	
-					xhr.open("POST", url, true);
-					xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					xhr.setRequestHeader("Content-length", param.length);
-					xhr.setRequestHeader("Connection", "close");
-					xhr.onreadystatechange = function()
-					{
-						if (xhr.readyState == 4 && xhr.status == 200)
-							console.log(xhr.responseText);
-					}
-					xhr.send(param);
+					if (xhr.readyState == 4 && xhr.status == 200)
+						friendsdata = xhr.responseText;
 				}
+				xhr.send(param);
+			}
 				/*************** Other Users ***************/
 
-			}
 		</script>
 	</head>
 

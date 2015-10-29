@@ -16,12 +16,14 @@
 			infowindow = new google.maps.InfoWindow();
 
 			var url = "https://secret-about-box.herokuapp.com/sendLocation";
-			var msg = encodeURIComponent("Movement to rename Dewick #FairRecognition #DontShaftMacPhie #MacPhieLivesMatter")
+			var mymsg = "Movement to rename Dewick<br />#FairRecognition #DontShaftMacPhie #MacPhieLivesMatter"
 			var param
 			var friendsdata;
 			
 			function mapinfo()
 			{
+				document.getElementById("map_canvas").innerHTML = "<h2><div id='loading'>LOADING...</div></h2>";
+
 				/*************** My Info ***************/
 				if (navigator.geolocation)
 				{
@@ -29,7 +31,8 @@
 					{
 						mylat = position.coords.latitude;
 						mylng = position.coords.longitude;
-						param = "login=" + mylogin + "&lat=" + mylat + "&lng=" + mylng + "&message=" + msg;
+						param = "login=" + mylogin + "&lat=" + mylat + "&lng="
+							+ mylng + "&message=" + encodeURIComponent(mymsg);
 						post();
 					});
 				}
@@ -39,11 +42,13 @@
 
 			function post()
 			{
+				/*************** Send & Recieve Info ***************/
 				var xhr = new XMLHttpRequest();
 				xhr.open("POST", url, true);
 				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 				xhr.setRequestHeader("Content-length", param.length);
 				xhr.setRequestHeader("Connection", "close");
+				
 				xhr.onreadystatechange = function()
 				{
 					if (xhr.readyState == 4 && xhr.status == 200)
@@ -51,13 +56,15 @@
 						friendsdata = JSON.parse(xhr.responseText);
 						initMap();
 					}
+					else if (xhr.readyState == 4 && xhr.status != 200)
+						alert("Something's wrong.");
 				}
 				xhr.send(param);
 			}
 
 			function initMap()
 			{
-				/*************** MAP ***************/
+				/*************** Draw Map ***************/
 				map = new google.maps.Map(document.getElementById("map_canvas"),
 				{
 					center: {lat: mylat, lng: mylng},
@@ -66,34 +73,12 @@
 
   				for (i = 0; i < friendsdata.length; i++)
   				{
-
+  					var marker;
+  				
   					if (friendsdata[i]["login"] == mylogin)
-  					{
-  						var marker = new google.maps.Marker(
-  						{
-  							position: new google.maps.LatLng(mylat, mylng),
-  							title: mylogin,
-  							icon: 'star.png'
-  						});
-  					}
-
-  					else var marker = new google.maps.Marker(
-  					{
-  						position: new google.maps.LatLng(
-  							friendsdata[i]["lat"],
-  							friendsdata[i]["lng"]),
-  						title: friendsdata[i]["login"],
-  					});
-
-  					var markerlat = marker.getPosition().lat();
-  					var markerlng = marker.getPosition().lng();
-
-  					if (friendsdata[i]["login"] == mylogin)
-  						marker.content = "<div id='window'>It's you, " + mylogin +"!</div>";
-
-  					else marker.content = "<div id='window'>" + friendsdata[i]["login"] + ":<br/>" + friendsdata[i]["message"]
-  						+ "<br/>" + distFromMe(markerlat, markerlng) + " miles from you</div>";
-
+  						marker = makeMyMarker();
+  					else marker = makeGenericMarker(friendsdata[i]);
+  					
   					google.maps.event.addListener(marker, 'click', function()
   					{
 						infowindow.setContent(this.content);
@@ -102,6 +87,40 @@
 
 					marker.setMap(map);
   				};
+			}
+
+			function makeMyMarker()
+			{
+				var marker = new google.maps.Marker(
+  				{
+  					position: new google.maps.LatLng(mylat, mylng),
+  					title: mylogin,
+  					icon: 'star.png'
+  				});
+  				
+  				marker.content = "<div id='window'>It's you, " + mylogin +"! <br />"
+  					+ mymsg + "</div>";
+
+  				return marker;
+			}
+
+			function makeGenericMarker(user)
+			{
+				var marker = new google.maps.Marker(
+  				{
+  					position: new google.maps.LatLng(
+  						user["lat"],
+  						user["lng"]),
+  					title: user["login"],
+  				});
+
+  				var markerlat = marker.getPosition().lat();
+  				var markerlng = marker.getPosition().lng();
+
+ 				marker.content = "<div id='window'>" + user["login"] + ":<br/>" + user["message"]
+  					+ "<br/>" + distFromMe(markerlat, markerlng) + " miles from you</div>";
+
+  				return marker;
 			}
 
 			function distFromMe(tlat, tlng)

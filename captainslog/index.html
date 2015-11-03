@@ -8,9 +8,10 @@
 	<script>
 		$(document).ready(function(){
 			$("input").change(function(){
-				// Take info and put in local storage
+
 				var newmessage = $("input").val();
 				var timestamp = new Date();
+				var msgcount = 1;
 
 				if ('msgcount' in localStorage)
 				{
@@ -19,10 +20,7 @@
 					localStorage.setItem('msgcount', msgcount);
 				}
 				else
-				{
-					var msgcount = 1;
 					localStorage.setItem('msgcount', msgcount);
-				}
 
 				localStorage[msgcount] = timestamp + " - " + newmessage;
 
@@ -32,14 +30,8 @@
 				}
 
 				$("#log").html(alldata);
-			});
-			
+			});		
 		});
-	  // Onload
-	  	// fetches info from the message box
-	  	// puts info into local storage
-	  	// fetches all messages from local storage
-	  	// prints all messages onto screen
 	</script>
 </head>
 

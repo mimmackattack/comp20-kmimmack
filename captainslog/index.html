@@ -8,8 +8,13 @@
 	<script>
 		$(document).ready(function(){
 			$("input").change(function(){
-				// Take info put in local storage
-				alert("There's been a change!");
+				console.log("There's been a change!");
+					// Take info put in local storage
+				var newmessage = $("input").val();
+				console.log(newmessage);
+				var timestamp = Date.now();
+				console.log(timestamp.toString());
+				//localStorage.setItem(timestamp, newmessage);
 			});
 			
 		});

@@ -8,13 +8,30 @@
 	<script>
 		$(document).ready(function(){
 			$("input").change(function(){
-				console.log("There's been a change!");
-					// Take info put in local storage
+				// Take info and put in local storage
 				var newmessage = $("input").val();
-				console.log(newmessage);
-				var timestamp = Date.now();
-				console.log(timestamp.toString());
-				//localStorage.setItem(timestamp, newmessage);
+				var timestamp = new Date();
+
+				if ('msgcount' in localStorage)
+				{
+					var msgcount = parseInt(localStorage.getItem('msgcount'));
+					msgcount = msgcount + 1;
+					localStorage.setItem('msgcount', msgcount);
+				}
+				else
+				{
+					var msgcount = 1;
+					localStorage.setItem('msgcount', msgcount);
+				}
+
+				localStorage[msgcount] = timestamp + " - " + newmessage;
+
+				var alldata = "";
+				for (i = msgcount; i > 0; i--) {
+					alldata = alldata + "<p>" + localStorage[i] + "</p>";
+				}
+
+				$("#log").html(alldata);
 			});
 			
 		});

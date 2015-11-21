@@ -4,7 +4,7 @@
 
 	<head>
 		<title>Map Chat</title>
-		<meta charset="utf-8" /> 
+		<meta charset="utf-8" />
 		<link rel="stylesheet" href="style.css" />
 		<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
 		<script>
@@ -15,11 +15,11 @@
 			var map;
 			infowindow = new google.maps.InfoWindow();
 
-			var url = "https://secret-about-box.herokuapp.com/sendLocation";
+			var url = "https://quiet-anchorage-5729.herokuapp.com/sendLocation";
 			var mymsg = "Movement to rename Dewick<br />#FairRecognition #DontShaftMacPhie #MacPhieLivesMatter"
 			var param
 			var friendsdata;
-			
+
 			function mapinfo()
 			{
 				document.getElementById("map_canvas").innerHTML = "<h2><div id='loading'>LOADING...</div></h2>";
@@ -48,7 +48,7 @@
 				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 				xhr.setRequestHeader("Content-length", param.length);
 				xhr.setRequestHeader("Connection", "close");
-				
+
 				xhr.onreadystatechange = function()
 				{
 					if (xhr.readyState == 4 && xhr.status == 200)
@@ -74,11 +74,11 @@
   				for (i = 0; i < friendsdata.length; i++)
   				{
   					var marker;
-  				
+
   					if (friendsdata[i]["login"] == mylogin)
   						marker = makeMyMarker();
   					else marker = makeGenericMarker(friendsdata[i]);
-  					
+
   					google.maps.event.addListener(marker, 'click', function()
   					{
 						infowindow.setContent(this.content);
@@ -97,7 +97,7 @@
   					title: mylogin,
   					icon: 'star.png'
   				});
-  				
+
   				marker.content = "<div id='window'>It's you, " + mylogin +"! <br />"
   					+ mymsg + "</div>";
 

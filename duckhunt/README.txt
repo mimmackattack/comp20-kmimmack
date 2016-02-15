@@ -1,4 +1,4 @@
-Katherine Mimmack Duck Hunt game:
+Duck Hunt
 
 1. The images load correctly on the screen and in the proper locations.
    What has not been implemented is the animation for the ducks.

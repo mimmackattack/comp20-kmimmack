@@ -1,11 +1,17 @@
 # comp20-kmimmack
 
-1. The purpose of this git repository is to have my work out and available to be able to reference and to use in a potential portfolio or example of past work.
+This git repository is an example of my work in Tufts' Comp 20 Web Development course. This course was my first exposure to web development, and as such, much of the code given here centers around accomplishing simple tasks which utilize specific skills. 
 
-2. My favorite lab/assignment was the Captain’s Log. I really enjoyed working with local storage, and switching to jQuery was so much nicer than working with pure javascript that it made the lab a lot more fun to complete.
+This course has offered me a lot in terms of comp sci knowledge. I feel like I have a much better grasp on how to design for users, not just for myself. Outside of hard coding skills, I learned the importance of responsive design, protecting websites from users that can and will break your website, regardless of malicious intent, and even the necessity of designing with accessibility in mind, such as ensuring webpages are readable for colorblind individuals, optimized for visually impared users, and intuitive to senior citizens. Below is a brief summary of each assignment folder and the skills they demonstrate.
 
-3. I have definitely grown a lot in terms of comp sci knowledge. I feel like I have a much better grasp on how to design for users, not just for myself, and definitely a much better understanding of the process for getting jobs and internships.
+**captainslog** - JQuery, local storage
 
-4. The most important thing I learned was that users can and will break your website, regardless of malicious intent. One example of this was when Ming made the mapchat redirect to the Rick Roll during class. Another example of this was our Assignment 4 where we looked for vulnerabilities in each others’ servers..
+**duckhunt** - Using javascript to trim images and draw to canvas elements
 
-5. I really want to learn more about designing for users with disabilities as well as tools for making interactive graphics with javascript
+**mapchat** - Google Maps API, geolocation, XMLHttpRequest. Heroku server used in assignment is no longer activiated, so gh-pages branch will no longer display live.
+
+**messages** - XMLHTTPRequest, JSON parsing, basic CSS
+
+**responsive** - CSS image cropping, responsive design
+
+**security** - investigation of security vulnerabiliies such as cross-site scripting in mapchat assignment. Use of Postman software.
